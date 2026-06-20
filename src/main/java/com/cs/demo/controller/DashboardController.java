@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cs.demo.service.DashboardService;
 
-
+import com.cs.demo.dto.DashboardSummary;
 
 
 
@@ -49,5 +49,9 @@ public class DashboardController {
 	}
 	
 	
+	@GetMapping("/summary")
+	public DashboardSummary getSummary() {
+	    return service.getSummary();
+	}
 	
 }

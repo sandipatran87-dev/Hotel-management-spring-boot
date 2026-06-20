@@ -1,5 +1,7 @@
 package com.cs.demo.service;
 
+import com.cs.demo.dto.DashboardSummary;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +47,19 @@ public class DashboardService {
 	    return roomRepo.occupiedRooms();
 	}
 	
-	
-	
+	public DashboardSummary getSummary() {
+
+	    DashboardSummary dto = new DashboardSummary();
+
+	    dto.setTotalCustomers(customerRepo.count());
+	    dto.setTotalBookings(bookingRepo.count());
+
+	    dto.setAvailableRooms(roomRepo.availableRooms());
+	    dto.setOccupiedRooms(roomRepo.occupiedRooms());
+
+	    dto.setTotalRevenue(paymentRepo.totalRevenue());
+
+	    return dto;
+	}
 	
 }
