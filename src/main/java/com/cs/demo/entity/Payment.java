@@ -1,6 +1,7 @@
 package com.cs.demo.entity;
 
 
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID paymentId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "bill_id")
     private Bill bill;
 
@@ -24,14 +25,12 @@ public class Payment {
 
     private String paymentMethod;
 
+    private String transactionReference;
+
     private String paymentStatus;
 
     @CreationTimestamp
-    @Column(updatable = false)
     private LocalDateTime paymentDate;
-
-    public Payment() {
-    }
 
     public UUID getPaymentId() {
         return paymentId;
@@ -63,6 +62,14 @@ public class Payment {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getTransactionReference() {
+        return transactionReference;
+    }
+
+    public void setTransactionReference(String transactionReference) {
+        this.transactionReference = transactionReference;
     }
 
     public String getPaymentStatus() {

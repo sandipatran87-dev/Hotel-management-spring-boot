@@ -51,4 +51,11 @@ public class BookingController {
 
         return "Booking Deleted";
     }
+    
+    @PutMapping("/checkout/{id}")
+    public Booking checkout(
+            @PathVariable("id") UUID id) {
+
+        return service.checkout(id);
+    }
 }

@@ -6,7 +6,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cs.demo.entity.Bill;
 import com.cs.demo.entity.Payment;
+import com.cs.demo.repo.BillRepository;
 import com.cs.demo.repo.PaymentRepository;
 
 @Service
@@ -15,20 +17,45 @@ public class PaymentService {
     @Autowired
     private PaymentRepository repo;
 
-    public Payment savePayment(Payment payment) {
+    @Autowired
+    private BillRepository billRepo;
+
+    public Payment save(Payment payment) {
+
+        UUID billId =
+                payment.getBill().getBillId();
+
+        Bill bill =
+                billRepo.findById(billId)
+                .orElseThrow(() ->
+                new RuntimeException("Bill Not Found"));
+
+        if (repo.existsByBill_BillId(billId)) {
+
+            throw new RuntimeException(
+                    "Payment Already Exists");
+        }
+
+        bill.setBillStatus("PAID");
+
+        billRepo.save(bill);
+
+        payment.setTransactionReference(
+                "TXN" + System.currentTimeMillis()
+        );
+
         return repo.save(payment);
     }
 
-    public List<Payment> getAllPayments() {
+    public List<Payment> getAll() {
         return repo.findAll();
     }
 
-    public Payment getPaymentById(UUID id) {
+    public Payment getById(UUID id) {
         return repo.findById(id).orElse(null);
     }
 
-    public String deletePayment(UUID id) {
+    public void delete(UUID id) {
         repo.deleteById(id);
-        return "Payment Deleted";
     }
 }

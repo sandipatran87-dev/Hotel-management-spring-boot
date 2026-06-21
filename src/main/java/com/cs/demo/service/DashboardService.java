@@ -1,65 +1,74 @@
 package com.cs.demo.service;
 
-import com.cs.demo.dto.DashboardSummary;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cs.demo.dto.DashboardSummary;
+import com.cs.demo.repo.BillRepository;
 import com.cs.demo.repo.BookingRepository;
 import com.cs.demo.repo.CustomerRepository;
-import com.cs.demo.repo.PaymentRepository;
 import com.cs.demo.repo.RoomRepository;
 
 @Service
 public class DashboardService {
 
-	@Autowired
-	private CustomerRepository customerRepo;
+    @Autowired
+    private CustomerRepository customerRepo;
 
-	public Long totalCustomers() {
-	    return customerRepo.totalCustomers();
-	}
-	
-	
-	@Autowired
-	private BookingRepository bookingRepo;
+    @Autowired
+    private BookingRepository bookingRepo;
 
-	public Long totalBookings() {
-	    return bookingRepo.totalBookings();
-	}
-	
-	
-	@Autowired
-	private PaymentRepository paymentRepo;
+    @Autowired
+    private RoomRepository roomRepo;
 
-	public Double totalRevenue() {
-	    return paymentRepo.totalRevenue();
-	}
-	
-	@Autowired
-	private RoomRepository roomRepo;
+    @Autowired
+    private BillRepository billRepo;
 
-	public Long availableRooms() {
-	    return roomRepo.availableRooms();
-	}
-	
-	public Long occupiedRooms() {
-	    return roomRepo.occupiedRooms();
-	}
-	
-	public DashboardSummary getSummary() {
+    // Total Customers
+    public Long totalCustomers() {
+        return customerRepo.count();
+    }
 
-	    DashboardSummary dto = new DashboardSummary();
+    // Total Bookings
+    public Long totalBookings() {
+        return bookingRepo.count();
+    }
 
-	    dto.setTotalCustomers(customerRepo.count());
-	    dto.setTotalBookings(bookingRepo.count());
+    // Total Revenue
+    public Double totalRevenue() {
+        return billRepo.totalRevenue();
+    }
 
-	    dto.setAvailableRooms(roomRepo.availableRooms());
-	    dto.setOccupiedRooms(roomRepo.occupiedRooms());
+    // Available Rooms
+    public Long availableRooms() {
+        return roomRepo.availableRooms();
+    }
 
-	    dto.setTotalRevenue(paymentRepo.totalRevenue());
+    // Occupied Rooms
+    public Long occupiedRooms() {
+        return roomRepo.occupiedRooms();
+    }
 
-	    return dto;
-	}
-	
+    // Dashboard Summary
+    public DashboardSummary getSummary() {
+
+        DashboardSummary dto = new DashboardSummary();
+
+        dto.setTotalCustomers(
+                customerRepo.count());
+
+        dto.setTotalBookings(
+                bookingRepo.count());
+
+        dto.setAvailableRooms(
+                roomRepo.availableRooms());
+
+        dto.setOccupiedRooms(
+                roomRepo.occupiedRooms());
+
+        dto.setTotalRevenue(
+                billRepo.totalRevenue());
+
+        return dto;
+    }
 }

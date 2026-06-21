@@ -20,4 +20,6 @@ public interface RoomRepository extends JpaRepository<Room, UUID> {
 	@Query("SELECT COUNT(r) FROM Room r WHERE r.roomStatus='BOOKED'")
 	Long occupiedRooms();
 	
+	
+	
 }

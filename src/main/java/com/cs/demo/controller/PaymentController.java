@@ -4,18 +4,10 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.cs.demo.entity.Payment;
 import com.cs.demo.service.PaymentService;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 @RequestMapping("/payments")
@@ -26,24 +18,29 @@ public class PaymentController {
     private PaymentService service;
 
     @PostMapping
-    public Payment savePayment(@RequestBody Payment payment) {
-        return service.savePayment(payment);
+    public Payment save(
+            @RequestBody Payment payment) {
+
+        return service.save(payment);
     }
 
     @GetMapping
-    public List<Payment> getAllPayments() {
-        return service.getAllPayments();
+    public List<Payment> getAll() {
+
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Payment getPaymentById(@PathVariable("id") UUID id) {
-        return service.getPaymentById(id);
+    public Payment getById(
+            @PathVariable UUID id) {
+
+        return service.getById(id);
     }
-    
+
     @DeleteMapping("/{id}")
-    public String deletePayment(@PathVariable("id") UUID id) {
-        service.deletePayment(id);
-        return "Payment Deleted Successfully";
+    public void delete(
+            @PathVariable UUID id) {
+
+        service.delete(id);
     }
-    
 }
