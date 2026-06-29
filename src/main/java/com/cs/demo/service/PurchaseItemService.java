@@ -58,6 +58,21 @@ public class PurchaseItemService {
     }
 
     public void delete(UUID id) {
-        repo.deleteById(id);
+
+        PurchaseItem item = repo.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Purchase Item Not Found"));
+
+        InventoryItem inv = inventoryRepo.findById(
+                item.getInventoryItem().getInventoryId())
+                .orElseThrow(() ->
+                        new RuntimeException("Inventory Item Not Found"));
+
+        inv.setQuantity(
+                inv.getQuantity() - item.getQuantity());
+
+        inventoryRepo.save(inv);
+
+        repo.delete(item);
     }
 }

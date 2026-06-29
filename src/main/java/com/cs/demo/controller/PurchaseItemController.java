@@ -42,11 +42,7 @@ public class PurchaseItemController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(
-            @PathVariable UUID id) {
-
+    public void delete(@PathVariable("id") UUID id) {
         service.delete(id);
-
-        return "Deleted Successfully";
     }
 }
